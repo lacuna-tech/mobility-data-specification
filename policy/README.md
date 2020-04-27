@@ -130,16 +130,14 @@ The `updated` field in the payload wrapper should be set to the time of publishi
     "version": "0.4.0",
     "updated": "1570035222868",
     "end_date": "1570035222868",
-    "data": {
-        "policies": [
-            {
-                // policy JSON 1
-            },
-            {
-                // policy JSON 2
-            }
-        ]
-    }
+    "policies": [
+        {
+            // policy JSON 1
+        },
+        {
+            // policy JSON 2
+        }
+    ]
 }
 ```
 
@@ -151,16 +149,14 @@ The optional `end_date` field applies to all policies represented in the file.
 {
     "version": "0.4.0",
     "updated": "1570035222868",
-    "data": {
-        "geographies": [
-            {
-                // GeoJSON Feature 1
-            },
-            {
-                // GeoJSON Feature 2
-            }
-        ]
-    }
+    "geographies": [
+        {
+            // GeoJSON Feature 1
+        },
+        {
+            // GeoJSON Feature 2
+        }
+    ]
 }
 ```
 
@@ -170,15 +166,13 @@ The optional `end_date` field applies to all policies represented in the file.
 
 All response fields must use `lower_case_with_underscores`.
 
-Response bodies must be a `UTF-8` encoded JSON object and must minimally include the MDS `version`, a timestamp indicating the last time the data was `updated`, and a `data` payload:
+Response bodies must be a `UTF-8` encoded JSON object and must minimally include the MDS `version`, a timestamp indicating the last time the data was `updated`:
 
 ```json
 {
     "version": "x.y.z",
     "updated": "1570035222868",
-    "data": {
-        // endpoint/file specific payload
-    }
+    // endpoint/file specific payload
 }
 ```
 
