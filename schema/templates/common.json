@@ -60,7 +60,8 @@
         "bicycle",
         "car",
         "scooter",
-        "moped"
+        "moped",
+        "other"
       ]
     },
     "vehicle_event": {
