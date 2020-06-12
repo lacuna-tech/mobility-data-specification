@@ -181,6 +181,7 @@ The list of allowed `vehicle_type` values in MDS is:
 | car          | Any automobile |
 | scooter      | Any motorized mobility device intended for one rider |
 | moped        | A motorcycle/bicycle hybrid that can be powered or pedaled |
+| other        | Another vehicle type not covered by any of the other options |
 
 [Top][toc]
 
