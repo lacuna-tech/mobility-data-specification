@@ -190,13 +190,14 @@ Path Params:
 
 Body Params:
 
-| Field           | Type                         | Required/Optional      | Field Description                                                                                          |
-|-----------------|------------------------------|------------------------|------------------------------------------------------------------------------------------------------------|
-| `vehicle_state` | Enum                         | Required               | see [Vehicle States][vehicle-states]                                                                       |
-| `event_types`   | Enum[]                       | Required               | see [Micromobility Vehicle Events][mm-vehicle-events] and [Taxi Vehicle Events][taxi-vehicle-events]       |
-| `timestamp`     | [timestamp][ts]              | Required               | Date of last event update                                                                                  |
-| `telemetry`     | [Telemetry](#telemetry-data) | Required               | Single point of telemetry                                                                                  |
-| `trip_id`       | UUID                         | Conditionally required | UUID provided by Operator to uniquely identify the trip. See [trip_id requirements](#trip_id-requirements) |
+| Field                  | Type                         | Required/Optional      | Field Description                                                                                                     |
+|------------------------|------------------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| `vehicle_state`        | Enum                         | Required               | see [Vehicle States][vehicle-states]                                                                                  |
+| `event_types`          | Enum[]                       | Required               | see [Micromobility Vehicle Events][mm-vehicle-events] and [Taxi Vehicle Events][taxi-vehicle-events]                  |
+| `timestamp`            | [timestamp][ts]              | Required               | Date of last event update                                                                                             |
+| `telemetry`            | [Telemetry](#telemetry-data) | Required               | Single point of telemetry                                                                                             |
+| `trip_id`              | UUID                         | Conditionally required | UUID provided by Operator to uniquely identify the trip. See [trip_id requirements](#trip_id-requirements)            |
+| `prediction_timestamp` | [timestamp][ts]              | Conditionally required | Required if this is a predictive event (e.g. hasn't occurred yet, but is a best-estimate of an event that will occur) |
 
 201 Success Response:
 
