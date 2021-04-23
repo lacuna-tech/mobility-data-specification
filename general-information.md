@@ -26,6 +26,7 @@ This document contains specifications that are shared between the various MDS AP
   - [Vehicle States](#vehicle-states)
     - [Micromobility Vehicle States](#micromobility-vehicle-states)
     - [Taxi Vehicle States](#taxi-vehicle-states)
+    - [TNC Vehicle States](#tnc-vehicle-states)
   - [Vehicle Events](#vehicle-events)
     - [Micromobility Vehicle States & Events](#micromobility-vehicle-states--events)
     - [Taxi Vehicle States & Events](#taxi-vehicle-states--events)
@@ -269,6 +270,18 @@ In a multi-jurisdiction environment, the status of a vehicle is per-jurisdiction
 | `state`           | In PROW? | Description                                                                                                                                                                    |
 |-------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `removed`         | no       | Vehicle is explicitly removed from the PROW. Examples include: at the shop receiving maintenance, vehicle moved to another fleet                                               |
+| `available`       | yes      | Available for-hire by a passenger.                                                                                                                                             |
+| `non_operational` | yes      | Not available for-hire.  Example: driver's shift ends and vehicle goes out of service                                                                                          |
+| `reserved`        | yes      | Reserved via Provider's app, waiting to be picked up by a rider.                                                                                                               |
+| `on_trip`         | yes      | On a trip with passengers in the vehicle.  May or may not be in motion.                                                                                                        |
+| `stopped`         | yes      | Vehicle is stopped to either pick-up, or drop-off a passenger.                                                                                                                 |
+| `elsewhere`       | no       | Outside of regulator's jurisdiction, and thus not subject to cap-counts or other regulations. Example: a vehicle that started a trip in L.A. has transitioned to Santa Monica. |
+| `unknown`         | unknown  | Provider has lost contact with the vehicle and its disposition is unknown.  Examples include: driving in a tunnel, hardware malfunction                                        |
+
+### TNC Vehicle States
+
+| `state`           | In PROW? | Description                                                                                                                                                                    |
+|-------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `available`       | yes      | Available for-hire by a passenger.                                                                                                                                             |
 | `non_operational` | yes      | Not available for-hire.  Example: driver's shift ends and vehicle goes out of service                                                                                          |
 | `reserved`        | yes      | Reserved via Provider's app, waiting to be picked up by a rider.                                                                                                               |
