@@ -170,6 +170,7 @@ _No content returned if no vehicle matching `device_id` is found._
 The vehicle `/event` endpoint allows the Provider to control the state of the vehicle including deregister a vehicle from the fleet.
 
 Endpoint: `/vehicles/{device_id}/event`
+
 Method: `POST`
 
 Path Params:
@@ -261,7 +262,7 @@ A standard point of vehicle telemetry. References to latitude and longitude impl
 
 ## Trips
 
-The `/trips` endpoint is a subset of the similar endpoint in Provider, except it's push instead of pull.  It receives trip information that is above and beyond what is encoded in the event and telemetry streams.
+The `/trips` endpoint is a subset of the similar endpoint in Provider, except it's push instead of pull.  It receives trip information that is above and beyond what is encoded in the register, event and telemetry streams.
 
 The requirements for how soon a trip record must be posted after is part of the Service Level Agreement between Agencies and Providers.
 
@@ -283,6 +284,17 @@ The requirements for how soon a trip record must be posted after is part of the 
 | `standard_cost` | Integer | Optional | The cost, in the currency defined in `currency`, that it would cost to perform that trip in the standard operation of the System (see [Costs & Currencies][costs-and-currencies]) |
 | `actual_cost` | Integer | Optional | The actual cost, in the currency defined in `currency`, paid by the customer of the *mobility as a service* provider (see [Costs & Currencies][costs-and-currencies]) |
 | `currency` | String | Optional, USD cents is implied if null.| An [ISO 4217 Alphabetic Currency Code][iso4217] representing the currency of the payee (see [Costs & Currencies][costs-and-currencies]) |
+
+201 Success Response:
+
+_No content returned on success._
+
+400 Failure Response:
+
+| `error`              | `error_description`                               | `error_details`[]               |
+| -------------------- | ------------------------------------------------- | ------------------------------- |
+| `bad_param`          | A validation error occurred.                      | Array of parameters with errors |
+| `missing_param`      | A required parameter is missing.                  | Array of missing parameters     |
 
 **Endpoint:** `/trips`  
 **Method:** `GET`  
