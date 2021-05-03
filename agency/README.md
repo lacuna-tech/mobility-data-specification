@@ -259,6 +259,45 @@ A standard point of vehicle telemetry. References to latitude and longitude impl
 
 [Top][toc]
 
+## Trips
+
+The `/trips` endpoint is a subset of the similar endpoint in Provider, except it's push instead of pull.  It receives trip information that is above and beyond what is encoded in the event and telemetry streams.
+
+The requirements for how soon a trip record must be posted after is part of the Service Level Agreement between Agencies and Providers.
+
+**Endpoint:** `/trips`  
+**Method:** `POST`  
+**[Beta feature][beta]:** No  
+**`data` Payload:** `{ "trips": [] }`, an array of objects with the following structure  
+
+| Field | Type    | Required/Optional | Comments |
+| ----- | -------- | ----------------- | ----- |
+| `provider_id` | UUID | Required | A UUID for the Provider, unique within MDS. See MDS [provider list](/providers.csv). |
+| `device_id` | UUID | Required | A unique device ID in UUID format |
+| `trip_id` | UUID | Required | A unique ID for each trip |
+| `trip_duration` | Integer | Required | Time, in Seconds |
+| `trip_distance` | Integer | Required | Trip Distance, in Meters |
+| `start_time` | [timestamp][ts] | Required | |
+| `end_time` | [timestamp][ts] | Required | |
+| `parking_verification_url` | String | Optional | A URL to a photo (or other evidence) of proper vehicle parking |
+| `standard_cost` | Integer | Optional | The cost, in the currency defined in `currency`, that it would cost to perform that trip in the standard operation of the System (see [Costs & Currencies][costs-and-currencies]) |
+| `actual_cost` | Integer | Optional | The actual cost, in the currency defined in `currency`, paid by the customer of the *mobility as a service* provider (see [Costs & Currencies][costs-and-currencies]) |
+| `currency` | String | Optional, USD cents is implied if null.| An [ISO 4217 Alphabetic Currency Code][iso4217] representing the currency of the payee (see [Costs & Currencies][costs-and-currencies]) |
+
+**Endpoint:** `/trips`  
+**Method:** `GET`  
+**[Beta feature][beta]:** No  
+**`data` Payload:** `{ "trips": [] }`, an array of objects with the same structure as the POST flavor  
+
+The `/trips` GET API should allow querying trips with the following query parameters:
+
+| Parameter | Format | Expected Output |
+| --------------- | ------ | --------------- |
+| `start_time` | `YYYY-MM-DDTHH`, an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) extended datetime representing an UTC hour between 00 and 23. | All trips with a start time occurring within the hour. For example, requesting `end_time=2019-10-01T07` returns all trips where `2019-10-01T07:00:00 <= trip.end_time < 2019-10-01T08:00:00` UTC. |
+| `end_time` | `YYYY-MM-DDTHH`, an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) extended datetime representing an UTC hour between 00 and 23. | All trips with an end time occurring within the hour. For example, requesting `end_time=2019-10-01T07` returns all trips where `2019-10-01T07:00:00 <= trip.end_time < 2019-10-01T08:00:00` UTC. |
+
+[Top][toc]
+
 ## Stops
 
 The `/stops` endpoint allows an agency to register city-managed Stops, or a provider to register self-managed Stops.
@@ -329,6 +368,7 @@ If `stop_id` is specified, `GET` will return an array with a single stop record,
 [Top][toc]
 
 [beta]: /general-information.md#beta-features
+[costs-and-currencies]: /general-information.md#costs-and-currencies
 [general]: /general-information.md
 [geography-driven-events]: /general-information.md#geography-driven-events
 [error-messages]: /general-information.md#error-messages
