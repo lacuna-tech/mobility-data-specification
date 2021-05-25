@@ -17,6 +17,7 @@ This specification contains a collection of RESTful APIs used to specify the dig
     - [Trip_id Requirements](#trip_id-requirements)
       - [Micromobility](#micromobility)
       - [Taxi](#taxi)
+      - [TNC](#tnc)
   - [Vehicle - Telemetry](#vehicle---telemetry)
   - [Telemetry Data](#telemetry-data)
   - [Stops](#stops)
@@ -189,13 +190,14 @@ Path Params:
 
 Body Params:
 
-| Field           | Type                         | Required/Optional      | Field Description                                                                                          |
-|-----------------|------------------------------|------------------------|------------------------------------------------------------------------------------------------------------|
-| `vehicle_state` | Enum                         | Required               | see [Vehicle States][vehicle-states]                                                                       |
-| `event_types`   | Enum[]                       | Required               | see [Micromobility Vehicle Events][mm-vehicle-events] and [Taxi Vehicle Events][taxi-vehicle-events]       |
-| `timestamp`     | [timestamp][ts]              | Required               | Date of last event update                                                                                  |
-| `telemetry`     | [Telemetry](#telemetry-data) | Required               | Single point of telemetry                                                                                  |
-| `trip_id`       | UUID                         | Conditionally required | UUID provided by Operator to uniquely identify the trip. See [trip_id requirements](#trip_id-requirements) |
+| Field                  | Type                         | Required/Optional      | Field Description                                                                                                     |
+|------------------------|------------------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| `vehicle_state`        | Enum                         | Required               | see [Vehicle States][vehicle-states]                                                                                  |
+| `event_types`          | Enum[]                       | Required               | see [Micromobility Vehicle Events][mm-vehicle-events] and [Taxi Vehicle Events][taxi-vehicle-events]                  |
+| `timestamp`            | [timestamp][ts]              | Required               | Date of last event update                                                                                             |
+| `telemetry`            | [Telemetry](#telemetry-data) | Required               | Single point of telemetry                                                                                             |
+| `trip_id`              | UUID                         | Conditionally required | UUID provided by Operator to uniquely identify the trip. See [trip_id requirements](#trip_id-requirements)            |
+| `prediction_timestamp` | [timestamp][ts]              | Conditionally required | Required if this is a predictive event (e.g. hasn't occurred yet, but is a best-estimate of an event that will occur) |
 
 201 Success Response:
 
@@ -218,6 +220,9 @@ Required if `event_types` contains `trip_start`, `trip_end`, `trip_cancel`, `tri
 
 #### Taxi
 Required if `event_types` contains `reservation_start`, `reservation_stop`, `trip_start`, `trip_stop`, `trip_end`, `passenger_cancellation`, `driver_cancellation`. Additionally, `trip_id` is also required if `event_types` contains a `enter_jurisdiction` or `leave_jurisdiction` event which pertains to a passenger trip. 
+
+#### TNC
+Requirements are the same as for the Taxi mode (see above).
 
 [Top][toc]
 
@@ -371,6 +376,7 @@ The Trips endpoint serves multiple purposes:
 * Definitively indicating that a Trip (a sequence of events linked by a trip_id) has been completed. For example, from analyzing only the raw Vehicle Events feed, if a trip crosses an Agency's jurisdictional boundaries but does not end within the jurisdiction (last event_type seen is a `leave_jurisdiction`), this can result in a 'dangling trip'. The Trips endpoint satisfies this concern, by acting as a final indication that a trip has been finished, even if it ends outside of jurisdictional boundaries; if a trip has intersected an Agency's jurisdictional boundaries at all during a trip, it is expected that a Provider will send a Trip payload to the Agency following the trip's completion.
 * Providing information to an Agency regarding an entire trip, without extending any of the Vehicle Event payloads, or changing any requirements on when Vehicle Events should be sent.
 
+At the discretion of the regulating agency some typically required fields may be omitted, and some additional fields may be required.
 | Field                         | Type                           | Required/Optional      | Field Description                                                                                                                                                                                                                                                                                                             |
 |-------------------------------|--------------------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | trip_id                       | UUID                           | Required               | UUID for the trip this payload pertains to                                                                                                                                                                                                                                                                                    |
@@ -419,4 +425,5 @@ Payload which was POST'd
 [vehicle-states]: /general-information.md#vehicle-states
 [mm-vehicle-events]: /general-information.md#micromobility-vehicle-states--events
 [taxi-vehicle-events]: /general-information.md#taxi-vehicle-states--events
+[tnc-vehicle-events]: /general-information.md#tnc-vehicle-states--events
 [versioning]: /general-information.md#versioning
